@@ -12,16 +12,21 @@ class RecommendationController extends Controller
     private $size = 5;
 
     public function test() {
+        // $query = '{
+        //             "user" : "Dx;8",
+        //             "item" : "Dx;9788498383621",
+        //             "fields": [
+        //                 {
+        //                     "name" : "businessId",
+        //                     "value" : ["Dx"],
+        //                     "bias" : -1
+        //                 }
+        //             ]
+        //         }';
         $query = '{
-                    "user" : "Dx;8",
-                    "item" : "Dx;9788498383621",
-                    "fields": [
-                        {
-                            "name" : "businessId",
-                            "value" : ["Dx"],
-                            "bias" : -1
-                        }
-                    ]
+                    "user" : "8",
+                    "item" : "9788498383621",
+                    "businessId" : "Dx"
                 }';
         
         return $this->predict(json_decode($query));
@@ -55,7 +60,16 @@ class RecommendationController extends Controller
         return $item_scores;
     }
 
-    public function buildQuery($query) {
+    public function buildQuery($raw_query) {
+        $query = $raw_query;
+        $query->user = $raw_query->businessId . ';' . $raw_query->user;
+        $query->item = $raw_query->businessId . ';' . $raw_query->item;
+        if(!isset($query->fields)){
+            $query->fields = array();
+        }
+
+        array_push($query->fields, $this->buildBusinessField($raw_query->businessId));
+
         $boostable_events = $this->getBiasedRecentUserActions($query);
         $boostable = $boostable_events[0];
         $events = $boostable_events[1];
@@ -266,6 +280,17 @@ class RecommendationController extends Controller
         }
 
         return $response;
+    }
+
+    public function buildBusinessField($business_id)
+    {
+        return json_decode(json_encode(
+                [
+                    "name" => "businessId",
+                    "value" => [$business_id],
+                    "bias" => -1
+                ]
+            ));
     }
 
     public function getItem($item_id)
