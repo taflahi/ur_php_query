@@ -39,8 +39,9 @@ class RecommendationController extends Controller
 
     public function predict($query){
         $query_built = $this->buildQuery($query);
-
         $response = $this->esQuery($query_built);
+
+        $this->log($query->businessId);
 
         return $this->buildResponse($response);
     }
@@ -314,5 +315,18 @@ class RecommendationController extends Controller
             ]);
         
         return json_decode($res->getBody());
+    }
+
+    public function log($businessId){
+        $db = app('db');
+        $businessDB = $db->connection('business');
+
+        // dd($query);
+
+        $businessDB->table('request_log')->insert([
+            [
+                'businessId' => $businessId
+            ]
+        ]);
     }
 }
