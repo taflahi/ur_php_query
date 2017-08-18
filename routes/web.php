@@ -19,4 +19,7 @@ $app->get('/', function () use ($app) {
 // $app->get('/image/{hash_id}', 'ImageController@show');
 // $app->post('/api', 'FailoverController@show');
 
-$app->get('/test', 'RecommendationController@test');
+$app->get('/test', 'EventController@test');
+$app->post('/recommend', 'RecommendationController@show');
+$app->post('/event', 'EventController@show');
+$app->post('/simple_event', 'EventController@simpleShow');

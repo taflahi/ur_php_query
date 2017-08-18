@@ -32,6 +32,11 @@ class RecommendationController extends Controller
         return $this->predict(json_decode($query));
     }
 
+    public function show(Request $request)
+    {
+        return $this->predict((object) $request->json()->all());
+    }
+
     public function predict($query){
         $query_built = $this->buildQuery($query);
 
