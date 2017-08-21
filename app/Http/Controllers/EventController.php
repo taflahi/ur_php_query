@@ -10,37 +10,12 @@ use DateTime;
 class EventController extends Controller
 {
 	public function test() {
-    //     $query = '
-    //         {
-    //             "entityId": "Dx;9788498387568",
-    //             "entityType": "item",
-    //             "event": "$set",
-    //             "eventTime": "2017-08-15T04:52:25.575+0000",
-    //             "properties": {
-    //                 "info": ["author:jkrowling", "price:12ish"],
-    //                 "status": [1],
-    //                 "detail": ["raw_price:IDR120000.00", "url:http://localhost:8000/products/harry-potter-and-the-cursed-child", "image:http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail/08/1a/f773dfe9131ba76541a2a9d67211.jpeg", "name:Harry Potter and the Cursed Child"],
-    //                 "businessId": ["Dx"]
-    //             }
-    //         }
-    //     ';
-
-    //     $query = '
-    //        {
-    //     	  "event" : "buy",
-		  //     "entityType" : "user",
-		  //     "entityId" : "Dx;3",
-		  //     "targetEntityType" : "item",
-		  //     "targetEntityId" : "Dx;9788498383621",
-		  //     "eventTime" : "2017-08-16T07:05:08.813+0000"
-		  // }';
-
         $query = '
             {
                 "action" : "buy",
-                "uid" : 3,
-                "bid" : "Dx",
-                "iid" : 4
+                "user" : 3,
+                "businessId" : "Dx",
+                "item" : 4
             }
         ';
         
@@ -65,9 +40,9 @@ class EventController extends Controller
 
         $query->event = $query->action;
         $query->entityType = 'user';
-        $query->entityId = $query->bid . ';' . $query->uid;
+        $query->entityId = $query->businessId . ';' . $query->user;
         $query->targetEntityType = 'item';
-        $query->targetEntityId = $query->bid . ';' . $query->iid;
+        $query->targetEntityId = $query->businessId . ';' . $query->item;
         $query->eventTime = $datetime->format(DateTime::ATOM);
 
         return $query;

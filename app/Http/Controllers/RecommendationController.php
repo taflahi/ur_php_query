@@ -12,17 +12,6 @@ class RecommendationController extends Controller
     private $size = 5;
 
     public function test() {
-        // $query = '{
-        //             "user" : "Dx;8",
-        //             "item" : "Dx;9788498383621",
-        //             "fields": [
-        //                 {
-        //                     "name" : "businessId",
-        //                     "value" : ["Dx"],
-        //                     "bias" : -1
-        //                 }
-        //             ]
-        //         }';
         $query = '{
                     "user" : "8",
                     "item" : "9788498383621",
@@ -32,9 +21,45 @@ class RecommendationController extends Controller
         return $this->predict(json_decode($query));
     }
 
+    public function dummy(){
+        return json_decode('[
+          {
+            "raw_price": "IDR110000.00",
+            "url": "http://localhost:8000/products/harry-potter-and-the-goblet-of-fire",
+            "image": "http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail/1d/2d/3eba144b805e907004b1aaab6562.jpeg",
+            "name": "Harry Potter and the Goblet of Fire"
+          },
+          {
+            "raw_price": "IDR190000.00",
+            "url": "http://localhost:8000/products/harry-potter-and-the-half-blood-prince",
+            "image": "http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail/63/16/d5fa56ef93e59bad421b48eb1497.jpeg",
+            "name": "Harry Potter and the Half-Blood Prince"
+          },
+          {
+            "raw_price": "IDR120000.00",
+            "url": "http://localhost:8000/products/the-fellowship-of-the-ring",
+            "image": "http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail/7a/5a/6a32ffec9378858462524fc147c9.jpeg",
+            "name": "The Fellowship of the Ring"
+          },
+          {
+            "raw_price": "IDR100000.00",
+            "url": "http://localhost:8000/products/the-two-towers",
+            "image": "http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail/d6/04/daf56d90c59c0636c3d4e0c25e57.jpeg",
+            "name": "The Two Towers"
+          },
+          {
+            "raw_price": "IDR110000.00",
+            "url": "http://localhost:8000/products/the-return-of-the-king",
+            "image": "http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail/95/39/b819979aee8d1587ef96d927534a.jpeg",
+            "name": "The Return of the King"
+          }
+        ]');
+    }
+
     public function show(Request $request)
     {
-        return $this->predict((object) $request->json()->all());
+
+        return $this->predict((object) $request->all());
     }
 
     public function predict($query){

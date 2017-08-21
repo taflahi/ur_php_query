@@ -20,6 +20,7 @@ $app->get('/', function () use ($app) {
 // $app->post('/api', 'FailoverController@show');
 
 $app->get('/test', 'EventController@test');
-$app->post('/recommend', 'RecommendationController@show');
+$app->get('/recommend', 'RecommendationController@show');
+$app->get('/dummy_recommend', 'RecommendationController@dummy');
 $app->post('/event', 'EventController@show');
 $app->post('/simple_event', 'EventController@simpleShow');
