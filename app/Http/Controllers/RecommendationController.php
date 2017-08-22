@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 
 class RecommendationController extends Controller
 {
-    private $es_url = 'http://localhost:9200/reco/';
+    private $es_url = 'http://103.23.22.215:9200/reco/'; //http://103.23.22.215:29201/reco/
     private $size = 5;
 
     public function test() {
